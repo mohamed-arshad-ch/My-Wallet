@@ -195,11 +195,17 @@ googlebtn.onclick = function(){
 
                 success: function (respose) {
                     
-                    alert("Register Added Successfully");
+                    new Noty({
+                                type: 'success',
+                                layout: 'topRight',
+                                text: 'Login Successfully'
+                            }).show();
 
-                    console.log("suus")
+                            
 
-                    document.location.href = "{% url 'index' %}";
+                            setTimeout(() => {
+                                document.location.href = "{% url 'dash' %}";
+                            }, 2000);
                 },
             
             });
@@ -249,11 +255,17 @@ facebookbtn.onclick = function(){
 
                 success: function (respose) {
                     
-                    alert("Register Added Successfully");
+                    new Noty({
+                                type: 'success',
+                                layout: 'topRight',
+                                text: 'Login Successfully'
+                            }).show();
 
-                    
+                            
 
-                    document.location.href = "{% url 'index' %}";
+                            setTimeout(() => {
+                                document.location.href = "{% url 'dash' %}";
+                            }, 2000);
                 },
             
             });

@@ -1,0 +1,124 @@
+{% extends 'dashbaseto.html' %}
+
+
+{% block datshtocontent %}
+
+        
+       <div class="row">
+           
+           <div class="col-8">
+            <a href="{% url 'addaccount' %}"><button type="button"  class="btn btn-danger">ADD ACCOUNTS</button></a>
+        
+                <a href="{% url 'incomeexpence' %}"><button type="button"  class="btn btn-primary">ADD TRANSACTION</button></a>
+                
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      REPORTS
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" href="#">MONTHLY</a>
+                      <a class="dropdown-item" href="{% url 'datewiseincomeexpence' %}">DATEWISE</a>
+                      <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                 
+            
+           </div>
+       </div>
+        <hr>
+
+        <div class="card" style="width: 65rem;height: 7rem;">
+
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-6 text-center">
+                        <h3 style="color: green;">{{totinc}}</h3>
+                        <p>Total Income</p>
+                    </div>
+                    <div class="col-6 text-center">
+                        <h3 style="color: red;">{{totexp}}</h3>
+                        <p>Total Expence</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+
+        <div>
+            <div class="row">
+                
+            </div>
+        </div>
+      
+
+
+        <!-- <div>
+          <div class="row">
+              
+            <div class="input-group">
+                <input width="10rem" type="text" class="form-control search-menu" placeholder="Search...">
+                <div class="input-group-append">
+                  <span class="input-group-text">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                  </span>
+                </div>
+              </div>
+         
+      </div> -->
+
+        <!-- <div class="row">
+            <div class="col-11">
+                <div id="imaginary_container">
+                    <div class="input-group stylish-input-group">
+                        <input type="text" class="form-control" placeholder="3 ACCOUNTS">
+
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        
+        
+        {% for chart in charts  %}
+        
+        {% if chart.debit == 0 and chart.credit == 0 %}
+        {% else %}
+        
+            
+      
+        <a href="{% url 'detailsaofeach' chart.acc_name.acc_name %}" style="text-decoration: none;">
+            <div class="card" style="width: 65rem;height: 5rem;">
+
+                <div class="card-body">
+    
+                    <div class="row">
+                        <div class="col-6 text-center"><br>
+                            <h6 style="color: black;">{{chart.acc_name.acc_name}}</h6>
+                            
+                        </div>
+                        <div class="col-6 text-center">
+                            
+                            {% if chart.debit > 0 and chart.credit == 0%}
+                            <h5 style="color: green;">{{chart.debit}}</h5>
+                            
+                            {% else %}
+                            <h5 style="color: red;">{{chart.credit}}</h5>
+                           
+                                
+                            {% endif %}
+                                
+                            
+                        </div>
+                    </div>
+    
+                </div>
+            </div>
+        </a>
+
+        {% endif %}
+        {% endfor %}
+            
+        
+
+
+
+{% endblock datshtocontent %}

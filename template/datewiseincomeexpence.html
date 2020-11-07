@@ -1,0 +1,110 @@
+{% extends 'dashbaseto.html' %}
+
+
+{% block datshtocontent %}
+<div class='col-md-5'>
+    <div class="form-group">
+        <div class='input-group date' id='datetimepicker6'>
+            <input type='date' id="datew" class="form-control" value="2014-02-09" />
+            <!-- <button id="just">dasd</button> -->
+            </span>
+        </div>
+    </div>
+</div>
+<table  class="table table-bordered">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Date</th>
+            <th scope="col">Account</th>
+            <th scope="col">Debit</th>
+            <th scope="col">Credit</th>
+            <th scope="col">To Account</th>
+        </tr>
+    </thead>
+    <tbody id="mytb">
+
+        {% for journals in journals  %}
+
+
+
+        <tr>
+            <th scope="row">{{journals.id}}</th>
+            <td>{{journals.date_created}}</td>
+            <td>{{journals.acc_name.acc_name}}</td>
+            <td>{{journals.debit}}</td>
+            <td>{{journals.credit}}</td>
+            <td>{{journals.to_acc}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+
+    $.ajaxSetup({
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    });
+
+
+
+    $('#datew').change(() => {
+        var input = document.getElementById("datew").value;
+        console.log(input);
+
+        $.ajax({
+            url: 'datewisefilter/',
+            type: 'post',
+            data: {
+                name: input,
+                csrfmiddlewaretoken: csrftoken
+            },
+
+            success: function (respose) {
+                // console.log(respose.count2);
+                // var html = '<option value="' + respose.count2 + '"></option>';
+                // $('#inc').append(html)
+                $("#mytb").empty();
+
+                // new Noty({
+                //     type: 'success',
+                //     layout: 'topRight',
+                //     text: 'Income Account Added Success'
+                // }).show();
+                // document.getElementById('incinp').value = ""
+
+                
+
+                    for (let index = 0; index < respose.count.debit.length; index++) {
+                        console.log(respose.count.debit[index]);
+                        var html = '<tr> <th scope="row">'+respose.count.id[index]+'  </th> <th>'+respose.count.date[index]+'  </th> <th>'+respose.count.account[index]+'  </th> <th>'+respose.count.debit[index]+'  </th> <th>'+respose.count.credit[index]+'  </th> <th>'+respose.count.toaccount[index]+'  </th>  </tr>';
+                        $("#mytb").append(html);
+                    }
+
+            },
+
+        });
+
+
+    })
+</script>
+
+{% endblock datshtocontent %}

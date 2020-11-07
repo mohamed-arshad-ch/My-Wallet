@@ -1,0 +1,250 @@
+{% extends 'dashbaseto.html' %}
+
+
+{% block datshtocontent %}
+
+
+
+
+
+
+
+        <hr>
+
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+                    aria-controls="nav-home" aria-selected="true">INCOME </a>
+                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+                    aria-controls="nav-profile" aria-selected="false">EXPENCE </a>
+
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+                <br>
+                <br>
+
+                <form class="needs-validation" novalidate>
+                    <div class="form-row">
+                        <div class="col-md-4 mb-3">
+
+                            <input type="text" class="form-control" id="amount" placeholder="Amount" required>
+
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <select class="form-control" name="acc_type" id="sel1">
+
+                                {% for acctype in acctypes  %}
+                                <option value="{{acctype.acc_name}}">{{acctype.acc_name}}</option>
+                                {% endfor %}
+
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <select class="form-control" name="acc_type" id="sel2">
+
+                                {% for paytype in paytypes  %}
+                                <option value="{{paytype.acc_name}}">{{paytype.acc_name}}</option>
+                                {% endfor %}
+
+
+                            </select>
+
+                        </div>
+
+
+
+
+                    </div>
+
+                    <button class="btn btn-primary" id="subinctra" type="button">SAVE</button>
+                </form>
+            </div>
+
+
+
+
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+
+                <br>
+                <br>
+
+                <form class="needs-validation" novalidate>
+                    <div class="form-row">
+                        <div class="col-md-4 mb-3">
+
+                            <input type="text" class="form-control" id="amount2" placeholder="Amount" required>
+
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <select class="form-control" name="acc_type" id="sel3">
+
+                                {% for acctype in acctypese  %}
+                                <option value="{{acctype.acc_name}}">{{acctype.acc_name}}</option>
+                                {% endfor %}
+
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <select class="form-control" name="acc_type" id="sel4">
+
+                                {% for paytype in paytypes  %}
+                                <option value="{{paytype.acc_name}}">{{paytype.acc_name}}</option>
+                                {% endfor %}
+
+
+                            </select>
+
+                        </div>
+
+
+
+
+                    </div>
+
+                    <button class="btn btn-primary" id="subexpbtn" type="button">SAVE</button>
+                </form>
+
+            </div>
+
+
+
+
+        </div>
+
+
+
+
+
+
+<script>
+
+
+    //cokkie
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+
+    $.ajaxSetup({
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    });
+
+    //Income Transaction
+
+
+
+    var subinctra = document.getElementById('subinctra')
+
+    $(subinctra).click(function () {
+
+        var amount = document.getElementById('amount').value;
+        var acctype = document.getElementById('sel1').value;
+        var paytype = document.getElementById('sel2').value;
+
+        $.ajax({
+            url: 'addincometran/',
+            type: 'post',
+            data: {
+                amount: amount,
+                acctype: acctype,
+                paytype: paytype,
+                csrfmiddlewaretoken: csrftoken
+            },
+
+            success: function (respose) {
+
+                new Noty({
+                    type: 'success',
+                    layout: 'topRight',
+                    text: 'Income Transaction Added'
+                }).show();
+
+                document.getElementById('amount').value = ""
+                document.getElementById('sel1').value = ""
+                document.getElementById('sel2').value = ""
+
+
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown);
+            }
+
+        });
+    })
+
+    //Expence Transaction
+
+
+    var subexpbtn = document.getElementById('subexpbtn')
+
+    $(subexpbtn).click(function () {
+
+        var amount = document.getElementById('amount2').value;
+        var acctype = document.getElementById('sel3').value;
+        var paytype = document.getElementById('sel4').value;
+
+        $.ajax({
+            url: 'addexpencetran/',
+            type: 'post',
+            data: {
+                amount: amount,
+                acctype: acctype,
+                paytype: paytype,
+                csrfmiddlewaretoken: csrftoken
+            },
+
+            success: function (respose) {
+
+                new Noty({
+                    type: 'success',
+                    layout: 'topRight',
+                    text: 'Income Transaction Added'
+                }).show();
+
+                document.getElementById('amount2').value = ""
+                document.getElementById('sel3').value = ""
+                document.getElementById('sel4').value = ""
+
+
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown);
+            }
+
+        });
+    })
+</script>
+
+{% endblock datshtocontent %}

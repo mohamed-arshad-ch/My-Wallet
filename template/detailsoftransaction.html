@@ -1,0 +1,79 @@
+{% extends 'dashbaseto.html' %}
+
+
+{% block datshtocontent %}
+
+        
+       
+
+        <div class="card" style="width: 65rem;height: 5rem;">
+
+            <div class="card-body">
+
+                <div class="row">
+                   <strong>{{account}}</strong>
+                    <!-- <div class="col-6 text-center">
+                        <h3 style="color: green;">{{totinc}}</h3>
+                        <p>Total Income</p>
+                    </div>
+                    <div class="col-6 text-center">
+                        <h3 style="color: red;">{{totexp}}</h3>
+                        <p>Total Expence</p>
+                    </div> -->
+                </div>
+
+            </div>
+        </div>
+       <br>
+       <br>
+
+
+        <!-- <div>
+          <div class="row">
+              
+            <div class="input-group">
+                <input width="10rem" type="text" class="form-control search-menu" placeholder="Search...">
+                <div class="input-group-append">
+                  <span class="input-group-text">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                  </span>
+                </div>
+              </div>
+         
+      </div> -->
+
+       
+        
+        <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Date</th>
+                <th scope="col">Debit</th>
+                <th scope="col">Credit</th>
+                <th scope="col">To Account</th>
+              </tr>
+            </thead>
+            <tbody>
+                
+                {% for journals in journal  %}
+                    
+                
+                    
+              <tr>
+                <th scope="row">{{journals.id}}</th>
+                <td>{{journals.date_created}}</td>
+                <td>{{journals.debit}}</td>
+                <td>{{journals.credit}}</td>
+                <td>{{journals.to_acc}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+            
+        
+
+
+
+{% endblock datshtocontent %}

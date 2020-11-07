@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,8 +12,12 @@
     <link rel="stylesheet" href="{% static 'login/fonts/material-icon/css/material-design-iconic-font.min.css' %}">
 
     <!-- Main css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css"
+        integrity="sha512-NXUhxhkDgZYOMjaIgd89zF2w51Mub53Ru3zCNp5LTlEzMbNNAjTjDbpURYGS5Mop2cU4b7re1nOIucsVlrx9fA=="
+        crossorigin="anonymous" />
     <link rel="stylesheet" href="{% static 'login/css/style.css' %}">
 </head>
+
 <body>
 
     <div class="main">
@@ -74,6 +79,9 @@
         <!-- Sing in  Form -->
         <section class="sign-in">
             <div class="container">
+                <div class="custom-container">
+
+                </div>
                 <div class="signin-content">
                     <div class="signin-image">
                         <figure><img src="{% static 'login/images/signin-image.jpg' %}" alt="sing up image"></figure>
@@ -85,18 +93,19 @@
                         <form method="POST" class="register-form" id="login-form">
                             <div class="form-group">
                                 <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="your_name" id="your_name" placeholder="Your Name"/>
+                                <input type="text" name="your_name" id="your_name" placeholder="Your Name" />
                             </div>
                             <div class="form-group">
                                 <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="your_pass" id="your_pass" placeholder="Password"/>
+                                <input type="password" name="your_pass" id="your_pass" placeholder="Password" />
                             </div>
                             <div class="form-group">
                                 <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
-                                <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
+                                <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember
+                                    me</label>
                             </div>
                             <div class="form-group form-button">
-                                <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
+                                <input type="submit" name="signin" id="signin" class="form-submit" value="Log in" />
                             </div>
                         </form>
                         <div class="social-login">
@@ -115,157 +124,182 @@
     </div>
 
     <!-- JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"
+        integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.js"
+        integrity="sha512-mgZL3SZ/vIooDg2mU2amX6NysMlthFl/jDbscSRgF/k3zmICLe6muAs7YbITZ+61FeUoo1plofYAocoR5Sa1rQ=="
+        crossorigin="anonymous"></script>
     <script src="{% static 'login/vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'login/js/main.js' %}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-noty/2.2.2/packaged/jquery.noty.packaged.min.js"></script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
 
-<!-- TODO: Add SDKs for Firebase products that you want to use
+    <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
 
-<script>
+    <script>
 
-function getCookie(name) {
-  let cookieValue = null;
-  if (document.cookie && document.cookie !== '') {
-    const cookies = document.cookie.split(';');
-    for (let i = 0; i < cookies.length; i++) {
-      const cookie = cookies[i].trim();
-      // Does this cookie string begin with the name we want?
-      if (cookie.substring(0, name.length + 1) === (name + '=')) {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        break;
-      }
-    }
-  }
-  return cookieValue;
-}
-var csrftoken = getCookie('csrftoken');
-
-$.ajaxSetup({
-  beforeSend: function (xhr) {
-    xhr.setRequestHeader("X-CSRFToken", csrftoken);
-  }
-});
-  // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyCJLVwdsFYx4s1SvtI4-dIyNbajYBgvQWc",
-    authDomain: "newfirebase-b6930.firebaseapp.com",
-    databaseURL: "https://newfirebase-b6930.firebaseio.com",
-    projectId: "newfirebase-b6930",
-    storageBucket: "newfirebase-b6930.appspot.com",
-    messagingSenderId: "638026096342",
-    appId: "1:638026096342:web:71cb391b4fc472cec4b377"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-
-
-
-
-  //google
-
-var googlebtn = document.getElementById('googleaut');
-
-googlebtn.onclick = function(){
-    
-    var provider = new firebase.auth.GoogleAuthProvider();
-
-    firebase.auth().signInWithPopup(provider).then(function(response){
-        const resp = response;
-        const respname = response.user.displayName;
-        const respemail = response.user.email;
-        const respverify = response.user.emailVerified;
-        const respuid = response.user.uid;
-        console.log(response);
-        if (respverify == true){
-            
-
-            $.ajax({
-                url: 'registeraccountbygoogle/',
-                type: 'post',
-                data: {
-                    name: respname,
-                    email: respemail,
-                    uid: respuid,
-                    csrfmiddlewaretoken: csrftoken
-                },
-
-                success: function (respose) {
-                    
-                    alert("Register Added Successfully");
-
-                    console.log("suus")
-
-                    document.location.href = "{% url 'index' %}";
-                },
-            
-            });
-
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
         }
-        else{
-            alert("Error In Google Account")
+        var csrftoken = getCookie('csrftoken');
+
+        $.ajaxSetup({
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        });
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyCJLVwdsFYx4s1SvtI4-dIyNbajYBgvQWc",
+            authDomain: "newfirebase-b6930.firebaseapp.com",
+            databaseURL: "https://newfirebase-b6930.firebaseio.com",
+            projectId: "newfirebase-b6930",
+            storageBucket: "newfirebase-b6930.appspot.com",
+            messagingSenderId: "638026096342",
+            appId: "1:638026096342:web:71cb391b4fc472cec4b377"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+
+
+
+        //google
+
+        var googlebtn = document.getElementById('googleaut');
+
+        googlebtn.onclick = function () {
+
+            var provider = new firebase.auth.GoogleAuthProvider();
+
+            firebase.auth().signInWithPopup(provider).then(function (response) {
+                const resp = response;
+                const respname = response.user.displayName;
+                const respemail = response.user.email;
+                const respverify = response.user.emailVerified;
+                const respuid = response.user.uid;
+                console.log(response);
+                if (respverify == true) {
+
+
+                    $.ajax({
+                        url: 'registeraccountbygoogle/',
+                        type: 'post',
+                        data: {
+                            name: respname,
+                            email: respemail,
+                            uid: respuid,
+                            csrfmiddlewaretoken: csrftoken
+                        },
+
+                        success: function (respose) {
+
+                            new Noty({
+                                type: 'success',
+                                layout: 'topRight',
+                                text: 'Login Successfully'
+                            }).show();
+
+                            
+
+                            setTimeout(() => {
+                                document.location.href = "{% url 'dash' %}";
+                            }, 2000);
+                        },
+
+                    });
+
+                }
+                else {
+                    alert("Error In Google Account")
+                }
+
+            })
+                .catch(function (error) {
+                    console.log(error);
+                })
         }
-        
-    })
-    .catch(function(error){
-        console.log(error);
-    })
-}
 
-//facebook
+        //facebook
 
-var facebookbtn = document.getElementById('facebookbtn');
+        var facebookbtn = document.getElementById('facebookbtn');
 
-facebookbtn.onclick = function(){
-   
-    var provider = new firebase.auth.FacebookAuthProvider();
+        facebookbtn.onclick = function () {
 
-    firebase.auth().signInWithPopup(provider).then(function(response){
-        const resp = response;
-        const respname = response.user.displayName;
-        const respemail = response.user.email;
-        const respverify = response.user.emailVerified;
-        const respuid = response.user.uid;
-        console.log(response);
-        if (respverify == true){
-            
 
-            
+            var provider = new firebase.auth.FacebookAuthProvider();
 
+            firebase.auth().signInWithPopup(provider).then(function (response) {
+                const resp = response;
+                const respname = response.user.displayName;
+                const respemail = response.user.email;
+                const respverify = response.user.emailVerified;
+                const respuid = response.user.uid;
+                console.log(response);
+                if (respverify == true) {
+
+
+                    console.log("dc");
+
+                }
+                else {
+                    $.ajax({
+                        url: 'registeraccountbyfacebook/',
+                        type: 'post',
+                        data: {
+                            name: respname,
+                            email: respemail,
+                            uid: respuid,
+                            csrfmiddlewaretoken: csrftoken
+                        },
+
+                        success: function (respose) {
+
+                            new Noty({
+                                type: 'success',
+                                layout: 'topRight',
+                                text: 'Login Successfully'
+                            }).show();
+
+                            
+
+                            setTimeout(() => {
+                                document.location.href = "{% url 'dash' %}";
+                            }, 2000);
+                        },
+                        error: function(error){
+                            console.log(error);
+                        }
+
+                    });
+                }
+
+            })
+                .catch(function (error) {
+                    console.log(error);
+                })
         }
-        else{
-            $.ajax({
-                url: 'registeraccountbyfacebook/',
-                type: 'post',
-                data: {
-                    name: respname,
-                    email: respemail,
-                    uid: respuid,
-                    csrfmiddlewaretoken: csrftoken
-                },
-
-                success: function (respose) {
-                    
-                    alert("Login  Successfully");
-
-                    
-
-                    document.location.href = "{% url 'index' %}";
-                },
-            
-            });
-        }
-        
-    })
-    .catch(function(error){
-        console.log(error);
-    })
-}
-</script>
+    </script>
 
 
 </body>
+
 </html>

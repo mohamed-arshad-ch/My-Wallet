@@ -8,3 +8,41 @@ class CustomUser(AbstractUser):
     mobile_no = models.CharField(max_length=10)
     goo_uid = models.CharField(max_length=150)
     
+
+class CharterdOfAccounts(models.Model):
+    acc_name = models.CharField(max_length=255)
+    place = models.CharField(max_length=150)
+    email = models.CharField(max_length=150)
+    mobile_no = models.CharField(max_length=10)
+    acc_status = models.IntegerField()
+    acc_type = models.IntegerField()
+    acc_script = models.IntegerField()
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.email
+
+class JournalEntry(models.Model):
+    date_created = models.DateField(auto_now_add=True,blank=True)
+    acc_name = models.ForeignKey(CharterdOfAccounts,on_delete=models.CASCADE)
+    debit = models.IntegerField()
+    credit = models.IntegerField()
+    to_acc = models.CharField(max_length=150)
+    acc_type = models.IntegerField()
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+
+class TradeDetails(models.Model):
+    date_created = models.DateField(auto_now_add=True,blank=True)
+    acc_name = models.ForeignKey(CharterdOfAccounts,on_delete=models.CASCADE)
+    debit_amount = models.IntegerField()
+    credit_amount = models.IntegerField()
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+
+class AmountSet(models.Model):
+    date_created = models.DateField(auto_now_add=True,blank=True)
+    acc_name = models.ForeignKey(CharterdOfAccounts,on_delete=models.CASCADE)
+    debit = models.IntegerField()
+    credit = models.IntegerField()
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    
+    
