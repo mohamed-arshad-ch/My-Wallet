@@ -5,40 +5,44 @@
 <div class='col-md-5'>
     <div class="form-group">
         <div class='input-group date' id='datetimepicker6'>
-            <input type='date' id="datew" class="form-control" value="2014-02-09" />
-            <!-- <button id="just">dasd</button> -->
-            </span>
+            <input type="date" id="datew" class="form-control"  />
+            
+           &nbsp;&nbsp; <button onclick="createPDF()" class="btn btn-success">CREATE PDF</button>
         </div>
     </div>
 </div>
-<table  class="table table-bordered">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Date</th>
-            <th scope="col">Account</th>
-            <th scope="col">Debit</th>
-            <th scope="col">Credit</th>
-            <th scope="col">To Account</th>
-        </tr>
-    </thead>
-    <tbody id="mytb">
-
-        {% for journals in journals  %}
-
-
-
-        <tr>
-            <th scope="row">{{journals.id}}</th>
-            <td>{{journals.date_created}}</td>
-            <td>{{journals.acc_name.acc_name}}</td>
-            <td>{{journals.debit}}</td>
-            <td>{{journals.credit}}</td>
-            <td>{{journals.to_acc}}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div id="tab">
+    <table  class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Date</th>
+                <th scope="col">Account</th>
+                <th scope="col">Debit</th>
+                <th scope="col">Credit</th>
+                <th scope="col">To Account</th>
+                <th scope="col">Description</th>
+            </tr>
+        </thead>
+        <tbody id="mytb">
+    
+            {% for journals in journals  %}
+    
+    
+    
+            <tr>
+                <th scope="row">{{journals.id}}</th>
+                <td>{{journals.date_created}}</td>
+                <td>{{journals.acc_name.acc_name}}</td>
+                <td>{{journals.debit}}</td>
+                <td>{{journals.credit}}</td>
+                <td>{{journals.to_acc}}</td>
+                <td>{{journals.desc}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 <script>
     function getCookie(name) {
@@ -95,7 +99,7 @@
 
                     for (let index = 0; index < respose.count.debit.length; index++) {
                         console.log(respose.count.debit[index]);
-                        var html = '<tr> <th scope="row">'+respose.count.id[index]+'  </th> <th>'+respose.count.date[index]+'  </th> <th>'+respose.count.account[index]+'  </th> <th>'+respose.count.debit[index]+'  </th> <th>'+respose.count.credit[index]+'  </th> <th>'+respose.count.toaccount[index]+'  </th>  </tr>';
+                        var html = '<tr> <th scope="row">'+respose.count.id[index]+'  </th> <th>'+respose.count.date[index]+'  </th> <th>'+respose.count.account[index]+'  </th> <th>'+respose.count.debit[index]+'  </th> <th>'+respose.count.credit[index]+'  </th> <th>'+respose.count.toaccount[index]+'  </th>  <th>'+respose.count.desc[index]+'  </th>  </tr>';
                         $("#mytb").append(html);
                     }
 
@@ -105,6 +109,34 @@
 
 
     })
+</script>
+
+
+<script>
+    function createPDF() {
+        var sTable = document.getElementById('tab').innerHTML;
+
+        var style = "<style>";
+        style = style + "table {width: 100%;font: 17px Calibri;}";
+        style = style + "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
+        style = style + "padding: 2px 3px;text-align: center;}";
+        style = style + "</style>";
+
+        // CREATE A WINDOW OBJECT.
+        var win = window.open('', '', 'height=700,width=700');
+
+        win.document.write('<html><head>');
+        win.document.write('<title>INCOME AND EXPENCE REPORT</title>');   // <title> FOR PDF HEADER.
+        win.document.write(style);          // ADD STYLE INSIDE THE HEAD TAG.
+        win.document.write('</head>');
+        win.document.write('<body>');
+        win.document.write(sTable);         // THE TABLE CONTENTS INSIDE THE BODY TAG.
+        win.document.write('</body></html>');
+
+        win.document.close(); 	// CLOSE THE CURRENT WINDOW.
+
+        win.print();    // PRINT THE CONTENTS.
+    }
 </script>
 
 {% endblock datshtocontent %}

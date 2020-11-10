@@ -23,19 +23,21 @@ class CharterdOfAccounts(models.Model):
         return self.email
 
 class JournalEntry(models.Model):
-    date_created = models.DateField(auto_now_add=True,blank=True)
+    date_created = models.DateField(blank=True)
     acc_name = models.ForeignKey(CharterdOfAccounts,on_delete=models.CASCADE)
     debit = models.IntegerField()
     credit = models.IntegerField()
+    desc = models.CharField(max_length=150)
     to_acc = models.CharField(max_length=150)
     acc_type = models.IntegerField()
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
 
 class TradeDetails(models.Model):
-    date_created = models.DateField(auto_now_add=True,blank=True)
+    date_created = models.DateField(blank=True)
     acc_name = models.ForeignKey(CharterdOfAccounts,on_delete=models.CASCADE)
     debit_amount = models.IntegerField()
     credit_amount = models.IntegerField()
+    desc = models.CharField(max_length=150)
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
 
 class AmountSet(models.Model):
@@ -43,6 +45,8 @@ class AmountSet(models.Model):
     acc_name = models.ForeignKey(CharterdOfAccounts,on_delete=models.CASCADE)
     debit = models.IntegerField()
     credit = models.IntegerField()
+    set_type = models.IntegerField()
+    tot = models.IntegerField()
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     
     

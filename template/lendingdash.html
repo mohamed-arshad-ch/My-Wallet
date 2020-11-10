@@ -7,9 +7,9 @@
        <div class="row">
            
            <div class="col-8">
-            <a href="{% url 'addaccount' %}"><button type="button"  class="btn btn-danger">ADD ACCOUNTS</button></a>
+            <a href="{% url 'addlendingpage' %}"><button type="button"  class="btn btn-danger">ADD ACCOUNTS</button></a>
         
-                <a href="{% url 'incomeexpence' %}"><button type="button"  class="btn btn-primary">ADD TRANSACTION</button></a>
+                <a href="{% url 'addlendingtransactio' %}"><button type="button"  class="btn btn-primary">ADD TRANSACTION</button></a>
                 
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       REPORTS
@@ -31,17 +31,18 @@
 
                 <div class="row">
                     <div class="col-4 text-center">
-                        <h3 style="color: green;">{{totinc}}</h3>
-                        <p>Total Income</p>
+                        <h3 style="color: green;">{{youget}}</h3>
+                        <p>You Will Get</p>
                     </div>
                     <div class="col-4 text-center">
-                        <h3 style="color: red;">{{totexp}}</h3>
-                        <p>Total Expence</p>
+                        <h3 style="color: red;">{{yougive}}</h3>
+                        <p>You Will Give</p>
                     </div>
-                    <div class="col-4 text-center">
-                        <h3 style="color:black;">{{balance}}</h3>
+                    <!-- <div class="col-4 text-center">
+                        <h3 style="color: black;">{{balance}}</h3>
                         <p>Balance</p>
-                    </div>
+                    </div> -->
+
                 </div>
 
             </div>
@@ -82,10 +83,9 @@
         </div> -->
         
         
-        {% for chart in charts  %}
+        {% for chart in customerentry  %}
         
-        {% if chart.debit == 0 and chart.credit == 0 %}
-        {% else %}
+        
         
             
       
@@ -101,14 +101,20 @@
                         </div>
                         <div class="col-6 text-center">
                             
-                            {% if chart.debit > 0 and chart.credit == 0%}
-                            <h5 style="color: green;">{{chart.debit}}</h5>
                             
+                            {% if chart.tot < 0 %}
+                            <h5 id="justvali" data-fg="{{chart.tot}}" style="color: red;">{{chart.tot}}</h5>
                             {% else %}
-                            <h5 style="color: red;">{{chart.credit}}</h5>
+                            <h5 style="color: green;">{{chart.tot}}</h5>
+                            {% endif %}
+                                
+                            
+                           
+                          
+                            
                            
                                 
-                            {% endif %}
+                            
                                 
                             
                         </div>
@@ -118,11 +124,22 @@
             </div>
         </a>
 
-        {% endif %}
+        
         {% endfor %}
             
-        
+      
 
+<script>
+    const ab = document.querySelectorAll('#justvali');
 
+    ab.forEach((sd)=>{
+        const datad = sd.dataset.fg;
+        console.log(datad);
+        var ne = datad.replace('-','')
+        console.log(ne);
+        sd.innerHTML = ne;
+    })
+    
+</script>
 
 {% endblock datshtocontent %}

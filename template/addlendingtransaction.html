@@ -1,0 +1,260 @@
+{% extends 'dashbaseto.html' %}
+
+
+{% block datshtocontent %}
+
+
+
+
+
+
+
+<hr>
+
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+            aria-controls="nav-home" aria-selected="true">YOU GOT </a>
+        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+            aria-controls="nav-profile" aria-selected="false">YOU GIVE </a>
+
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+        <br>
+        <br>
+
+        <form class="needs-validation" novalidate>
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="">Date</label>
+                    <input type="date" class="form-control" id="datew" required>
+
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="">Amount</label>
+                    <input type="text" class="form-control" id="amount" placeholder="Amount" required>
+
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label for="">Customer Account</label>
+                    <input type="text" class="form-control" list="give" id="customer" placeholder="Customer" required>
+
+                    <datalist id="give">
+
+                        {% for charts in chart %}
+                        <option value="{{charts.acc_name}}"></option>
+
+                        {% endfor %}
+
+                    </datalist>
+
+                </div>
+
+
+
+                <div class="col-md-4 mb-3">
+                    <label for="">Description</label>
+                    <input type="text" class="form-control" id="desc" required>
+
+                </div>
+
+
+
+
+            </div>
+
+            <button class="btn btn-primary" id="subinctra" type="button">SAVE</button>
+        </form>
+    </div>
+
+    <div class="tab-pane fade show " id="nav-profile" role="tabpanel" aria-labelledby="nav-home-tab">
+
+        <br>
+        <br>
+
+        <form class="needs-validation" novalidate>
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="">Date</label>
+                    <input type="date" class="form-control" id="datew1" required>
+
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="">Amount</label>
+                    <input type="text" class="form-control" id="amount1" placeholder="Amount" required>
+
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label for="">Customer Account</label>
+                    <input type="text" class="form-control" list="give" id="customer1" placeholder="Customer" required>
+
+                    <datalist id="give">
+
+                        {% for charts in chart %}
+                        <option value="{{charts.acc_name}}"></option>
+
+                        {% endfor %}
+
+                    </datalist>
+
+                </div>
+
+
+
+                <div class="col-md-4 mb-3">
+                    <label for="">Description</label>
+                    <input type="text" class="form-control" id="desc1" required>
+
+                </div>
+
+
+
+
+            </div>
+
+            <button class="btn btn-primary" id="subexpbtn" type="button">SAVE</button>
+        </form>
+    </div>
+
+
+   
+
+
+
+
+</div>
+
+
+
+
+
+
+<script>
+
+
+    //cokkie
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+
+    $.ajaxSetup({
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    });
+
+    //Income Transaction
+
+
+
+    var subinctra = document.getElementById('subinctra')
+
+    $(subinctra).click(function () {
+
+        var date = document.getElementById('datew').value;
+        var amount = document.getElementById('amount').value;
+        var customer = document.getElementById('customer').value;
+        var desc = document.getElementById('desc').value;
+
+        console.log(date, amount, customer, desc);
+
+        $.ajax({
+            url: 'addyougottransaction/',
+            type: 'post',
+            data: {
+                date: date,
+                amount: amount,
+                customer: customer,
+                desc: desc,
+                csrfmiddlewaretoken: csrftoken
+            },
+
+            success: function (respose) {
+
+                new Noty({
+                    type: 'success',
+                    layout: 'topRight',
+                    text: 'Income Transaction Added'
+                }).show();
+
+                document.getElementById('amount').value = ""
+                document.getElementById('datew').value = ""
+                document.getElementById('customer').value = ""
+                document.getElementById('desc').value = ""
+
+
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown);
+            }
+
+        });
+    })
+
+    //Expence Transaction
+
+
+    var subexpbtn = document.getElementById('subexpbtn')
+
+    $(subexpbtn).click(function () {
+
+        var date = document.getElementById('datew1').value;
+        var amount = document.getElementById('amount1').value;
+        var customer = document.getElementById('customer1').value;
+        var desc = document.getElementById('desc1').value;
+
+        $.ajax({
+            url: 'addyougivetransaction/',
+            type: 'post',
+            data: {
+                date: date,
+                amount: amount,
+                customer: customer,
+                desc: desc,
+                csrfmiddlewaretoken: csrftoken
+            },
+
+            success: function (respose) {
+
+                new Noty({
+                    type: 'success',
+                    layout: 'topRight',
+                    text: 'Income Transaction Added'
+                }).show();
+
+                document.getElementById('amount1').value = ""
+                document.getElementById('datew1').value = ""
+                document.getElementById('customer1').value = ""
+                document.getElementById('desc1').value = ""
+
+
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown);
+            }
+
+        });
+    })
+</script>
+
+{% endblock datshtocontent %}

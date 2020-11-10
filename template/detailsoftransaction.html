@@ -3,16 +3,39 @@
 
 {% block datshtocontent %}
 
+
+
+
+<div class="card" style="width: 65rem;height: 5rem;">
+
+  <div class="card-body">
+
+    <div class="row">
+      <div class="col-md-10">
+        <strong>{{account.acc_name}}</strong>
+      </div>
+      
+
+      
+      {% if account.acc_type == 20 %}
+      <div class="col-md-1">
+      
+        <i style="font-size: 30px;" class="fa fa-whatsapp" aria-hidden="true"></i>
         
+     
+      </div>
+      <div class="col-md-1">
+      
+        <i  style="font-size: 30px;" class="fa fa-envelope" aria-hidden="true"></i>
        
-
-        <div class="card" style="width: 65rem;height: 5rem;">
-
-            <div class="card-body">
-
-                <div class="row">
-                   <strong>{{account}}</strong>
-                    <!-- <div class="col-6 text-center">
+     
+      </div>
+        
+      {% endif %}
+        
+      
+      
+      <!-- <div class="col-6 text-center">
                         <h3 style="color: green;">{{totinc}}</h3>
                         <p>Total Income</p>
                     </div>
@@ -20,15 +43,20 @@
                         <h3 style="color: red;">{{totexp}}</h3>
                         <p>Total Expence</p>
                     </div> -->
-                </div>
+    </div>
+    <div class="row">
+     
+        <p>{{account.mobile_no}}</p>
+     
+    </div>
 
-            </div>
-        </div>
-       <br>
-       <br>
+  </div>
+</div>
 
-
-        <!-- <div>
+<button onclick="createPDF()" class="btn btn-success">CREATE PDF</button>
+<br>
+<br>
+<!-- <div>
           <div class="row">
               
             <div class="input-group">
@@ -42,37 +70,68 @@
          
       </div> -->
 
-       
-        
-        <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Date</th>
-                <th scope="col">Debit</th>
-                <th scope="col">Credit</th>
-                <th scope="col">To Account</th>
-              </tr>
-            </thead>
-            <tbody>
-                
-                {% for journals in journal  %}
-                    
-                
-                    
-              <tr>
-                <th scope="row">{{journals.id}}</th>
-                <td>{{journals.date_created}}</td>
-                <td>{{journals.debit}}</td>
-                <td>{{journals.credit}}</td>
-                <td>{{journals.to_acc}}</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
 
-            
-        
+
+<div id="tab">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Date</th>
+        <th scope="col">Debit</th>
+        <th scope="col">Credit</th>
+        <th scope="col">To Account</th>
+        <th scope="col">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      {% for journals in journal  %}
+
+
+
+      <tr>
+        <th scope="row">{{journals.id}}</th>
+        <td>{{journals.date_created}}</td>
+        <td>{{journals.debit}}</td>
+        <td>{{journals.credit}}</td>
+        <td>{{journals.to_acc}}</td>
+        <td>{{journals.desc}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+
+
+<script>
+  function createPDF() {
+    var sTable = document.getElementById('tab').innerHTML;
+
+    var style = "<style>";
+    style = style + "table {width: 100%;font: 17px Calibri;}";
+    style = style + "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
+    style = style + "padding: 2px 3px;text-align: center;}";
+    style = style + "</style>";
+
+    // CREATE A WINDOW OBJECT.
+    var win = window.open('', '', 'height=700,width=700');
+
+    win.document.write('<html><head>');
+    win.document.write('<title>ACCOUNT WISE REPORT</title>');   // <title> FOR PDF HEADER.
+    win.document.write(style);          // ADD STYLE INSIDE THE HEAD TAG.
+    win.document.write('</head>');
+    win.document.write('<body>');
+    win.document.write(sTable);         // THE TABLE CONTENTS INSIDE THE BODY TAG.
+    win.document.write('</body></html>');
+
+    win.document.close(); 	// CLOSE THE CURRENT WINDOW.
+
+    win.print();    // PRINT THE CONTENTS.
+  }
+</script>
+
 
 
 
