@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index,registerwithgoogle,register,registeraccountbyfacebook,logout,login,dash,addAccoutnt,addincomeaccount,addexpenceaccount,addcustomeraccount,incomeexpence,addincometran,addexpencetran,detailsaofeach,incomeandexpence,datewiseincomeexpence,datewisefilter,lendingpage,addlendingpage,addcustomeraccountinlending,addlendingtransactio,addyougottransaction,addyougivetransaction
+from .views import index,registerwithgoogle,register,registeraccountbyfacebook,logout,login,dash,addAccoutnt,addincomeaccount,addexpenceaccount,addcustomeraccount,incomeexpence,addincometran,addexpencetran,detailsaofeach,incomeandexpence,datewiseincomeexpence,datewisefilter,lendingpage,addlendingpage,addcustomeraccountinlending,addlendingtransactio,addyougottransaction,addyougivetransaction,splitdash,addsplitgroup,addsplitgroups,addaccountstosplit,addsplitcustomertogroup
 
 urlpatterns = [
     path('',index,name="index"),
@@ -25,7 +25,12 @@ urlpatterns = [
     path('addcustomeraccountinlending/',addcustomeraccountinlending,name="addcustomeraccountinlending/"),
     path('addlendingtransactio',addlendingtransactio,name="addlendingtransactio"),
     path('addyougottransaction/',addyougottransaction,name="addyougottransaction"),
-    path('addyougivetransaction/',addyougivetransaction,name="addyougivetransaction")
-
+    path('addyougivetransaction/',addyougivetransaction,name="addyougivetransaction"),
+    path('splitdash',splitdash,name="splitdash"),
+    path('addsplitgroup',addsplitgroup,name="addsplitgroup"),
+    path('addsplitgroups/',addsplitgroups,name="addsplitgroups"),
+    path('addaccountstosplit/<str:id>',addaccountstosplit,name="addaccountstosplit"),
+    path('addsplitcustomertogroup/',addsplitcustomertogroup,name="addsplitcustomertogroup")
+    
    
 ]

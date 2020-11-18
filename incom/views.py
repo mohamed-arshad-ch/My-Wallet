@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,HttpResponse
 from .models import CustomUser
 from django.contrib.auth.models import auth
 from django.http import JsonResponse
@@ -158,6 +158,7 @@ def addincomeaccount(request):
         return redirect('dash')
     except Exception as e:
         print(e)
+        return HttpResponse(e)
 
 # create Expence Account
 
@@ -177,6 +178,7 @@ def addexpenceaccount(request):
         return redirect('dash')
     except Exception as e:
         print(e)
+        return HttpResponse(e)
 
 # Create Payment Method
 
@@ -196,6 +198,7 @@ def addcustomeraccount(request):
         return redirect('dash')
     except Exception as e:
         print(e)
+        return HttpResponse(e)
 
 # Fetch Datas Of Income Account Name And Expence Account Name And Payment Method Name
 
@@ -451,6 +454,56 @@ def addyougivetransaction(request):
 
         amountchange.save()
 
+        return redirect('dash')
+    except Exception as e:
+        print(e)
+
+#Load Split Dash 
+def splitdash(request):
+    try:
+        return render(request,'splitdash.html')
+    except Exception as e:
+        print(e)
+
+#Load Split add group 
+def addsplitgroup(request):
+    try:
+        if request.method == 'GET':
+            groups = CharterdOfAccounts.objects.filter(user=request.user,acc_type=60)
+            return render(request,'addsplitgroup.html',{'groups':groups})
+        else:
+            grpname = request.POST.get('grp')
+            print(grpname)
+            CharterdOfAccounts.objects.get_or_create(acc_name=grpname,acc_script=50,acc_status=1,acc_type=60,user=request.user)
+            # return JsonResponse({'count2':grpname},status=200)
+            chart = CharterdOfAccounts.objects.filter(acc_type=20,user=request.user)
+            grp = SplitGroup.objects.filter(user=request.user,cus=grpname)
+            return render(request,'addaccountstogroup.html',{'name':grpname,'chart':chart,'grpmem':grp})
+    except Exception as e:
+        print(e)
+
+def addsplitgroups(request):
+    try:
+        pass
+    except Exception as e:
+        return HttpResponse(e)
+        print(e)
+
+def addaccountstosplit(request,id):
+    print(id)
+
+def addsplitcustomertogroup(request):
+    try:
+        cus = request.POST.get('accname')
+        grp = request.POST.get('grp')
+
+        
+
+        chartgrp = CharterdOfAccounts.objects.get(acc_name=grp,user=request.user)
+        chartcus = CharterdOfAccounts.objects.get(acc_name=cus,user=request.user)
+        
+        grpe , created = SplitGroup.objects.get_or_create(grp_name=chartcus,cus=grp,user=request.user)
+        return JsonResponse({'count2':cus},status=200)
         return redirect('dash')
     except Exception as e:
         print(e)

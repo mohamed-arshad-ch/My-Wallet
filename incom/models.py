@@ -7,7 +7,11 @@ from django.contrib.auth.models import AbstractUser
 class CustomUser(AbstractUser):
     mobile_no = models.CharField(max_length=10)
     goo_uid = models.CharField(max_length=150)
-    
+
+class SplitGroup(models.Model):
+    date_created = models.DateField(auto_now_add=True)
+    grp_name = models.CharField(max_length=150)
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
 
 class CharterdOfAccounts(models.Model):
     acc_name = models.CharField(max_length=255)
@@ -19,8 +23,16 @@ class CharterdOfAccounts(models.Model):
     acc_script = models.IntegerField()
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     
+    
     def __str__(self):
         return self.email
+
+
+class SplitGroup(models.Model):
+    date_created = models.DateField(auto_now_add=True)
+    grp_name = models.ForeignKey(CharterdOfAccounts,on_delete=models.CASCADE)
+    cus = models.CharField(max_length=150)
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
 
 class JournalEntry(models.Model):
     date_created = models.DateField(blank=True)
@@ -48,5 +60,4 @@ class AmountSet(models.Model):
     set_type = models.IntegerField()
     tot = models.IntegerField()
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
-    
     

@@ -1,0 +1,317 @@
+{% extends 'dashbaseto.html' %}
+
+
+{% block datshtocontent %}
+
+
+
+<hr>
+
+
+
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+            aria-controls="nav-home" aria-selected="true">CUSTOMER ACCOUNTS</a>
+        <!-- <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+          aria-controls="nav-profile" aria-selected="false">EXPENCE ACCOUNTS</a>
+        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab"
+          aria-controls="nav-contact" aria-selected="false">PAYMENT METHOD</a> -->
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+        <br>
+
+        <form class="needs-validation" method="POST" action="" novalidate>
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+
+                    <input type="text" list="lavish" class="form-control" name="grp" placeholder="Group Name" id="accname" required>
+
+                </div>
+                
+                
+             
+               
+
+                    <!-- <datalist id="lavish">
+
+                        {% for inclist in customer %}
+                        <option value="{{inclist.acc_name}}"></option>
+                        <option value="sadvavbsg"></option>
+                        {% endfor %}
+
+
+
+                    </datalist> -->
+
+                    <datalist id="lavish">
+                        {% for inclist in groups %}
+                        <option value="{{inclist.acc_name}}"></option>
+                        
+                        {% endfor %}
+                    </datalist>
+
+               
+
+
+            </div>
+
+            <button class="btn btn-primary" id="subinc" type="submit">SAVE</button>
+        </form>
+    </div>
+
+
+
+
+    <!-- <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+
+        <br>
+
+        <form class="needs-validation" novalidate>
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+
+                    <input type="text" list="exp" class="form-control" id="expinp" placeholder="Account Name" required>
+
+                </div>
+                <div class="col-md-4 mb-3">
+
+                    <datalist id="exp">
+
+                        {% for inclist in explist %}
+                        <option value="{{inclist.acc_name}}"></option>
+                        {% endfor %}
+
+
+
+                    </datalist>
+
+                </div>
+
+
+            </div>
+
+            <button class="btn btn-primary" id="subexp" type="button">SAVE</button>
+        </form>
+
+    </div> -->
+
+
+
+    <!-- <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+        <br>
+
+
+        <form class="needs-validation" novalidate>
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+
+                    <input type="text" list="pay" class="form-control" id="accname" placeholder="Account Name" required>
+
+                </div>
+                <div class="col-md-4 mb-3">
+
+                    <datalist id="pay">
+
+                        {% for inclist in paylist %}
+                        <option value="{{inclist.acc_name}}"></option>
+                        {% endfor %}
+
+
+
+                    </datalist>
+
+                </div>
+
+
+
+
+            </div>
+
+            <button class="btn btn-primary" id="subcus" type="button">SAVE</button>
+        </form>
+
+
+    </div> -->
+</div>
+
+<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-noty/2.2.2/packaged/jquery.noty.packaged.min.js"></script>
+
+
+
+<script>
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+
+    $.ajaxSetup({
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    });
+
+
+    // var subincbtn = document.getElementById('subinc');
+
+    // $(subincbtn).click(function () {
+    //     var acc_name = document.getElementById('accname').value;
+       
+    //     console.log(acc_name);
+
+    //     if (acc_name == "") {
+    //         new Noty({
+    //             type: 'warning',
+    //             layout: 'topRight',
+    //             text: 'Enter Valid Data'
+    //         }).show();
+    //     } else {
+
+    //         $.ajax({
+    //             url: 'addsplitgroups/',
+    //             type: 'post',
+    //             data: {
+    //                 accname: acc_name,
+    //                 csrfmiddlewaretoken: csrftoken
+    //             },
+
+    //             success: function (respose) {
+    //                 console.log(respose.count2);
+    //                 var html = '<option value="' + respose.count2 + '"></option>';
+    //                 $('#lavish').append(html)
+
+
+    //                 new Noty({
+    //                     type: 'success',
+    //                     layout: 'topRight',
+    //                     text: 'Income Account Added Success'
+    //                 }).show();
+    //                 // document.location.href ='{% url "addaccountstosplit" '+acc_name+' %}'
+    //                 document.getElementById('accname').value = ""
+    //                 document.getElementById('place').value = ""
+    //                 document.getElementById('email').value = ""
+    //                 document.getElementById('num').value = ""
+
+
+
+    //             },
+
+    //         });
+    //         $('#incinp').html('');
+
+    //     }
+    // })
+
+    //expence add
+
+    var subexpbtn = document.getElementById('subexp');
+
+    $(subexpbtn).click(function () {
+        var expinp = document.getElementById('expinp').value
+
+        if (expinp == "") {
+            new Noty({
+                type: 'warning',
+                layout: 'topRight',
+                text: 'Enter Valid Data'
+            }).show();
+        } else {
+
+            $.ajax({
+                url: 'addexpenceaccount/',
+                type: 'post',
+                data: {
+                    name: expinp,
+                    csrfmiddlewaretoken: csrftoken
+                },
+
+                success: function (respose) {
+                    var html = '<option value="' + respose.count2 + '"></option>';
+                    $('#exp').append(html)
+                    new Noty({
+                        type: 'success',
+                        layout: 'topRight',
+                        text: 'Expence Account Added Success'
+                    }).show();
+                    document.getElementById('expinp').value = ""
+
+
+
+
+                },
+
+            });
+
+        }
+    })
+
+    //customer add
+
+
+    var subexpbtn = document.getElementById('subcus');
+
+    $(subexpbtn).click(function () {
+        var accname = document.getElementById('accname').value
+
+
+        if (accname == "") {
+            new Noty({
+                type: 'warning',
+                layout: 'topRight',
+                text: 'Enter Valid Data'
+            }).show();
+        } else {
+
+            $.ajax({
+                url: 'addcustomeraccount/',
+                type: 'post',
+                data: {
+                    accname: accname,
+                    csrfmiddlewaretoken: csrftoken
+                },
+
+                success: function (respose) {
+                    var html = '<option value="' + respose.count2 + '"></option>';
+                    $('#pay').append(html)
+                    new Noty({
+                        type: 'success',
+                        layout: 'topRight',
+                        text: 'Customer Account Added Success'
+                    }).show();
+
+                    document.getElementById('accname').value = ""
+
+
+
+
+
+                },
+
+            });
+
+        }
+    })
+
+</script>
+{% endblock datshtocontent %}
